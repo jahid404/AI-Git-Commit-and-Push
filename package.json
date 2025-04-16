@@ -4,7 +4,7 @@
   "description": "A Visual Studio Code extension for automatically stages, commits, and pushes code changes after specific delay (60s) of inactivity. Commit messages are generated using Google's Gemini AI based on the code diff. Ideal for solo developers or rapid prototyping.",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.99.0"
+    "vscode": "^1.96.0"
   },
   "categories": [
     "Other"
