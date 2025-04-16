@@ -3,7 +3,7 @@ const cp = require('child_process');
 const fetch = require('node-fetch');
 
 let commitIntervalId = null;
-const msgPrefix = 'Auto Git AI Git Commit:';
+const msgPrefix = 'Auto AI Git Commit:';
 
 function activate(context) {
 	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
