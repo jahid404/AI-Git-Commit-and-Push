@@ -3,19 +3,30 @@
   "displayName": "Auto AI Git Commit and Push",
   "description": "A Visual Studio Code extension for automatically stages, commits, and pushes code changes after specific delay (60s) of inactivity. Commit messages are generated using Google's Gemini AI based on the code diff. Ideal for solo developers or rapid prototyping.",
   "version": "0.0.1",
+  "publisher": "dreamersdesire",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "workspaceContains:.git"
+  ],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "auto-ai-git-commit-and-push.helloWorld",
-      "title": "Hello World"
-    }]
+    "commands": [
+      {
+        "command": "auto-ai-git-commit-and-push.init",
+        "title": "Start Auto Commit",
+        "category": "Auto Git Commit"
+      },
+      {
+        "command": "auto-ai-git-commit-and-push.stop",
+        "title": "Stop Auto Commit",
+        "category": "Auto Git Commit"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
@@ -23,11 +34,14 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.75.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "eslint": "^9.23.0",
+    "@types/vscode": "^1.75.0",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.23.0"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
   }
 }
