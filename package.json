@@ -3,6 +3,7 @@
   "displayName": "Auto AI Git Commit and Push",
   "description": "A Visual Studio Code extension for automatically stages, commits, and pushes code changes after specific delay (60s) of inactivity. Commit messages are generated using Google's Gemini AI based on the code diff. Ideal for solo developers or rapid prototyping.",
   "version": "0.0.1",
+  "publisher": "dreamersdesire",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -24,8 +25,40 @@
         "command": "auto-ai-git-commit-and-push.stop",
         "title": "Stop",
         "category": "Auto Git Commit"
+      },
+      {
+        "command": "auto-ai-git-commit-and-push.openSettings",
+        "title": "Open Settings",
+        "category": "Auto Git Commit"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Auto AI Git Commit Settings",
+      "properties": {
+        "autoAiGitCommit.enablePush": {
+          "type": "string",
+          "default": "Coming Soon",
+          "description": "🚧 Push feature is coming in a future update. This setting is not yet available."
+        },
+        "autoAiGitCommit.defaultCommitMessage": {
+          "type": "string",
+          "default": "Updated Changes",
+          "description": "Fallback commit message used when the AI fails to generate one."
+        },
+        "autoAiGitCommit.commitDelay": {
+          "type": "number",
+          "default": 15,
+          "minimum": 10,
+          "description": "Delay (in seconds) between detecting changes and making a commit. Helps prevent frequent unnecessary commits."
+        },
+        "autoAiGitCommit.geminiApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your Gemini API Key for generating Git commit messages. Get this API Key from Google Studio AI"
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
