@@ -75,7 +75,7 @@ async function autoCommit(options = {}) {
 	const config = vscode.workspace.getConfiguration('autoAiGitCommit');
 	const apiKey = config.get('geminiApiKey');
 	const enablePush = false /* config.get('enablePush') */;
-	const defaultConfigMessage = config.get('defaultConfigMessage') || 'Updated Changes';
+	const defaultCommitMessage = config.get('defaultCommitMessage') || 'Updated Changes';
 
 	const { showInfoIfNoChanges = true } = options;
 	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
@@ -98,7 +98,7 @@ async function autoCommit(options = {}) {
 			return;
 		}
 
-		const message = await generateCommitMessage(diff, apiKey, defaultConfigMessage);
+		const message = await generateCommitMessage(diff, apiKey, defaultCommitMessage);
 		if (!message) {
 			vscode.window.showErrorMessage(`${msgPrefix} Failed to generate commit message`);
 			return;
