@@ -2,13 +2,32 @@
   "name": "auto-ai-git-commit-and-push",
   "displayName": "Auto AI Git Commit and Push",
   "description": "A Visual Studio Code extension for automatically stages, commits, and pushes code changes after specific delay (60s) of inactivity. Commit messages are generated using Google's Gemini AI based on the code diff. Ideal for solo developers or rapid prototyping.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "publisher": "dreamersdesire",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
-    "Other"
+    "Source Control",
+    "Programming Languages",
+    "Tools"
+  ],
+  "keywords": [
+    "git",
+    "git commit",
+    "git push",
+    "auto commit",
+    "auto push",
+    "commit message",
+    "AI",
+    "Gemini",
+    "version control",
+    "source control",
+    "vscode git",
+    "git automation",
+    "automated commit",
+    "git extension",
+    "auto git commit"
   ],
   "activationEvents": [
     "workspaceContains:.git"
@@ -17,8 +36,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "auto-ai-git-commit-and-push.init",
-        "title": "Start",
+        "command": "auto-ai-git-commit-and-push.commit",
+        "title": "Commit",
         "category": "Auto Git Commit"
       },
       {
@@ -29,6 +48,11 @@
       {
         "command": "auto-ai-git-commit-and-push.openSettings",
         "title": "Open Settings",
+        "category": "Auto Git Commit"
+      },
+      {
+        "command": "auto-ai-git-commit-and-push.restart",
+        "title": "Restart",
         "category": "Auto Git Commit"
       }
     ],
@@ -48,8 +72,8 @@
         },
         "autoAiGitCommit.commitDelay": {
           "type": "number",
-          "default": 15,
-          "minimum": 10,
+          "default": 60,
+          "minimum": 30,
           "description": "Delay (in seconds) between detecting changes and making a commit. Helps prevent frequent unnecessary commits."
         },
         "autoAiGitCommit.geminiApiKey": {

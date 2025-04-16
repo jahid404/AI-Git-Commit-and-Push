@@ -3,40 +3,36 @@ const cp = require('child_process');
 const fetch = require('node-fetch');
 
 let commitIntervalId = null;
+const msgPrefix = 'Auto Git AI Git Commit:';
 
 function activate(context) {
 	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
 	if (workspaceFolder) {
-		try {
-			cp.execSync('git --version', { stdio: 'ignore' }); 
-		} catch (err) {
-			vscode.window.showErrorMessage('Git is not installed or not in the system PATH.');
-			return;
-		}
-		
-		vscode.window.showInformationMessage('Auto AI Git Commit is running on startup...');
+		vscode.window.showInformationMessage(`${msgPrefix} Running on startup...`);
 		const config = vscode.workspace.getConfiguration('autoAiGitCommit');
-		const delayInSeconds = config.get('commitDelay') || 15;
+		const delayInSeconds = Math.max(config.get('commitDelay') || 30, 30);
 
 		// start auto-commits on interval
 		commitIntervalId = setInterval(() => {
 			try {
 				autoCommit({ showInfoIfNoChanges: false });
 			} catch (error) {
-				vscode.window.showErrorMessage(`Auto commit failed during interval: ${error.message}`);
+				vscode.window.showErrorMessage(`${msgPrefix} Auto commit failed during interval: ${error.message}`);
 			}
 		}, delayInSeconds * 1000);
 
 		autoCommit({ showInfoIfNoChanges: false });
 	}
 
-	const startCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.init', async () => {
+	// Immediate Commit command
+	const commitNow = vscode.commands.registerCommand('auto-ai-git-commit-and-push.commit', async () => {
 		autoCommit({ showInfoIfNoChanges: true });
 	});
 
+	// Stop command
 	const stopCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.stop', () => {
-		vscode.window.showInformationMessage('Auto AI Git Commit has stopped.');
+		vscode.window.showInformationMessage(`${msgPrefix} Stopped.`);
 
 		if (commitIntervalId) {
 			clearInterval(commitIntervalId);
@@ -44,43 +40,67 @@ function activate(context) {
 		}
 	});
 
+	// Restart command
+	const restartCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.restart', () => {
+		if (commitIntervalId) {
+			clearInterval(commitIntervalId);
+			commitIntervalId = null;
+		}
+		vscode.window.showInformationMessage(`${msgPrefix} Restarting...`);
+
+		const config = vscode.workspace.getConfiguration('autoAiGitCommit');
+		const delayInSeconds = Math.max(config.get('commitDelay') || 30, 30);
+
+		commitIntervalId = setInterval(() => {
+			try {
+				autoCommit({ showInfoIfNoChanges: false });
+			} catch (error) {
+				vscode.window.showErrorMessage(`${msgPrefix} Auto commit failed: ${error.message}`);
+			}
+		}, delayInSeconds * 1000);
+
+		autoCommit({ showInfoIfNoChanges: false });
+	});
+
+	// Open settings command
 	const openSettingsCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.openSettings', () => {
 		vscode.commands.executeCommand('workbench.action.openSettings', '@ext:dreamersdesire.auto-ai-git-commit-and-push');
 	});
 
 
-	context.subscriptions.push(startCommand, stopCommand, openSettingsCommand);
+	context.subscriptions.push(commitNow, stopCommand, restartCommand, openSettingsCommand);
 }
 
 async function autoCommit(options = {}) {
 	const config = vscode.workspace.getConfiguration('autoAiGitCommit');
 	const apiKey = config.get('geminiApiKey');
-	const enablePush = config.get('enablePush');
+	const enablePush = false /* config.get('enablePush') */;
 	const defaultConfigMessage = config.get('defaultConfigMessage') || 'Updated Changes';
 
 	const { showInfoIfNoChanges = true } = options;
 	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
 	if (!workspaceFolder) {
-		vscode.window.showErrorMessage('No workspace folder found.');
+		vscode.window.showErrorMessage(`${msgPrefix} No workspace folder found`);
 		return;
 	}
 
 	try {
+		cp.execSync('git --version', { stdio: 'ignore' });
 		cp.execSync('git rev-parse --is-inside-work-tree', { cwd: workspaceFolder, stdio: 'ignore' });
 		cp.execSync('git add .', { cwd: workspaceFolder });
 
 		const diff = cp.execSync('git diff --cached', { cwd: workspaceFolder, encoding: 'utf8' });
 		if (!diff.trim()) {
 			if (showInfoIfNoChanges) {
-				vscode.window.showInformationMessage('No changes to commit.');
+				// vscode.window.showInformationMessage('No changes to commit.');
 			}
 			return;
 		}
 
 		const message = await generateCommitMessage(diff, apiKey, defaultConfigMessage);
 		if (!message) {
-			vscode.window.showErrorMessage('Failed to generate commit message.');
+			vscode.window.showErrorMessage(`${msgPrefix} Failed to generate commit message`);
 			return;
 		}
 
@@ -93,8 +113,10 @@ async function autoCommit(options = {}) {
 			.trim();
 
 		cp.execSync(`git commit -m "${cleanMessage.replace(/"/g, "'")}"`, { cwd: workspaceFolder });
+		// vscode.window.showInformationMessage('Auto commit complete!');
+
 		if (enablePush) {
-			vscode.window.showInformationMessage('🚧 Push feature is coming in a future update. Stay tuned!');
+			vscode.window.showInformationMessage(`🚧 ${msgPrefix} Push feature is coming in a future update. Stay tuned!`);
 
 			/* const remote = cp.execSync('git remote get-url origin', { cwd: workspaceFolder }).toString().trim();
 			if (!remote.startsWith('git@')) {
@@ -103,18 +125,15 @@ async function autoCommit(options = {}) {
 				cp.execSync('git push', { cwd: workspaceFolder });
 				vscode.window.showInformationMessage('Commit pushed to GitHub.');
 			} */
-		} else {
-			vscode.window.showInformationMessage('Auto commit complete!');
 		}
-
 	} catch (err) {
-		vscode.window.showErrorMessage('Auto commit failed: ' + err.message);
+		vscode.window.showErrorMessage(`${msgPrefix} Auto commit failed (${err.message})`);
 	}
 }
 
 async function generateCommitMessage(diff, apiKey, fallbackMessage) {
 	if (!apiKey) {
-		vscode.window.showErrorMessage('Gemini API key is missing. Please set it in extension settings.');
+		vscode.window.showErrorMessage(`${msgPrefix} Gemini API key is missing. Please set it in extension settings.`);
 		return fallbackMessage;
 	}
 
@@ -134,13 +153,13 @@ async function generateCommitMessage(diff, apiKey, fallbackMessage) {
 		const data = await res.json();
 
 		if (data.error) {
-			vscode.window.showErrorMessage('Error from Gemini: ' + data.error.message);
+			vscode.window.showErrorMessage(`${msgPrefix} Error from Gemini (${data.error.message})`);
 			return fallbackMessage;
 		}
 
 		return data?.candidates?.[0]?.content?.parts?.[0]?.text || fallbackMessage;
 	} catch (err) {
-		vscode.window.showErrorMessage('Error contacting Gemini: ' + err.message);
+		vscode.window.showErrorMessage(`${msgPrefix} Error contacting with Gemini (${err.message})`);
 		return fallbackMessage;
 	}
 }
