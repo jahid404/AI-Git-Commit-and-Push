@@ -3,15 +3,26 @@ const cp = require('child_process');
 const fetch = require('node-fetch');
 
 function activate(context) {
+	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+
+	if (workspaceFolder) {
+		vscode.window.showInformationMessage('🚀 Auto Git Commit Running on Startup...');
+		autoCommit(false);
+	}
+
 	const startCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.init', async () => {
 		vscode.window.showInformationMessage('🚀 Running Auto Git Commit...');
-		await autoCommit();
+		await autoCommit(true);
 	});
 
-	context.subscriptions.push(startCommand);
+	const stopCommand = vscode.commands.registerCommand('auto-ai-git-commit-and-push.stop', () => {
+		vscode.window.showInformationMessage('ℹ️ Auto AI Git Commit has been stopped watching changes.');
+	});
+
+	context.subscriptions.push(startCommand, stopCommand);
 }
 
-async function autoCommit() {
+async function autoCommit(showInfoIfNoChanges = true) {
 	const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
 
 	if (!workspaceFolder) {
@@ -25,7 +36,9 @@ async function autoCommit() {
 
 		const diff = cp.execSync('git diff --cached', { cwd: workspaceFolder, encoding: 'utf8' });
 		if (!diff.trim()) {
-			vscode.window.showInformationMessage('ℹ️ No changes to commit.');
+			if (showInfoIfNoChanges) {
+				vscode.window.showInformationMessage('ℹ️ No changes to commit.');
+			}
 			return;
 		}
 
