@@ -1,65 +1,95 @@
-# auto-ai-git-commit-and-push README
+# Auto AI Git Commit and Push
 
-This is the README for your extension "auto-ai-git-commit-and-push". After writing up a brief description, we recommend including the following sections.
+Automatically stage, commit, and optionally push your code using AI-generated commit messages powered by **Google Gemini**. This extension helps automate Git hygiene for solo developers, prototypers, or anyone who wants quick commits without switching context.
+
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- ⏳ **Auto Commit on Inactivity**: Automatically commits code after a period of inactivity (default 60 seconds, minimum 30).
+- 🤖 **Gemini AI-Powered Commit Messages**: Generate meaningful and professional commit messages from code diffs.
+- 💬 **Manual Controls via Command Palette**:
+  - `Commit` now
+  - `Stop` auto commit
+  - `Restart` the extension
+  - `Open Settings`
+- 📁 **Works only in Git projects**: Automatically detects if a `.git` folder is present.
+- 🛡️ **Fallback Message**: Uses a default commit message if AI fails or no key is set.
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Git must be installed and available in your terminal (`git --version`).
+- A valid **Gemini API Key** from [Google AI Studio](https://makersuite.google.com/app) to enable AI commit messages.
+- A Git-initialized project (must contain a `.git` folder).
+- Internet access to connect to Google's API.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `autoAiGitCommit.commitDelay`  
+  _Type_: `number` – Delay (in seconds) between changes and auto-commit. Must be at least `30`.  
+  _Default_: `60`
+
+- `autoAiGitCommit.defaultCommitMessage`  
+  _Type_: `string` – Used when Gemini fails to generate a commit message.  
+  _Default_: `"Updated Changes"`
+
+- `autoAiGitCommit.geminiApiKey`  
+  _Type_: `string` – Your Gemini API key. Get one at [Google AI Studio](https://makersuite.google.com/app).
+
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- The "Push" feature is not implemented yet and is marked as "Coming Soon".
+- Works only with one workspace folder. Multi-root workspaces are not yet supported.
+- Some rare Gemini API responses may return improperly formatted messages.
+
+## FAQ
+
+**Q: Does this push to GitHub?**  
+A: Not yet. The `enablePush` feature is planned and will be released soon.
+
+**Q: Is my API key safe?**  
+A: Your Gemini API key is stored in your local VS Code settings and is never transmitted anywhere other than Google's API.
+
+**Q: Will this work with private Git repositories?**  
+A: Yes. As long as the workspace contains a `.git` folder, it will function.
+
+**Q: What happens if there's no diff to commit?**  
+A: Nothing will be committed, and no message is shown unless triggered manually.
+
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
+🎉 Initial release of `Auto AI Git Commit and Push`.
 
-### 1.0.1
+- Auto-detect `.git` projects
+- Auto-commit after delay
+- Gemini-generated commit messages
+- Manual `commit`, `stop`, `restart`, `openSettings` commands
+- Minimum delay enforcement (30 seconds)
+- Graceful fallback commit messaging
 
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
 
 ## Working with Markdown
 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
+- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows/Linux)
+- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows/Linux)
+- Press `Ctrl+Space` to see a list of Markdown snippets
+
 
 ## For more information
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- [Visual Studio Code Extension Docs](https://code.visualstudio.com/api)
+- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+- [Google Gemini API](https://ai.google.dev/)
 
-**Enjoy!**
+
+**Enjoy Auto AI Git Commit and Push!**  
+Made with 💡 by [DreamersDesire](https://dreamersdesire.com)  
+GitHub: [https://github.com/jahid404](https://github.com/jahid404)
