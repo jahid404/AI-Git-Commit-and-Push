@@ -3,3 +3,4 @@ node_modules
 extension-source.js
 .vscodeignore
 .vscode
+*.vsix
