@@ -2,8 +2,14 @@
 
 Automatically stage, commit, and optionally push your code using AI-generated commit messages powered by **Google Gemini**. This extension helps automate Git hygiene for solo developers, prototypers, or anyone who wants quick commits without switching context.
 
+## 🔽 Quick Download
 
-## Features
+Grab the latest `.vsix` package directly from the GitHub release:
+
+👉 [Download v1.0.0 – auto-ai-git-commit-and-push](https://github.com/jahid404/AI-Git-Commit-and-Push/releases/download/v1.0.0/auto-ai-git-commit-and-push-1.0.0.vsix)
+
+
+## ✨ Features
 
 - ⏳ **Auto Commit on Inactivity**: Automatically commits code after a period of inactivity (default 60 seconds, minimum 30).
 - 🤖 **Gemini AI-Powered Commit Messages**: Generate meaningful and professional commit messages from code diffs.
@@ -16,14 +22,44 @@ Automatically stage, commit, and optionally push your code using AI-generated co
 - 🛡️ **Fallback Message**: Uses a default commit message if AI fails or no key is set.
 
 
-## Requirements
+## 📦 Requirements
 
 - Git must be installed and available in your terminal (`git --version`).
 - A valid **Gemini API Key** from [Google AI Studio](https://makersuite.google.com/app) to enable AI commit messages.
 - A Git-initialized project (must contain a `.git` folder).
 - Internet access to connect to Google's API.
 
-## Extension Settings
+## 🚀 Usage
+
+Once you've installed the `.vsix` extension in VS Code, the extension works quietly in the background. Here's how to get started:
+
+1. **Install the Extension:**
+   - Open VS Code.
+   - Press `Ctrl+Shift+P` and select `Extensions: Install from VSIX...`.
+   - Choose the `.vsix` file you downloaded.
+
+2. **Configure Gemini API Key:**
+   - Open the **Command Palette** (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
+   - Run the command: `Auto Git Commit: Open Settings`.
+   - This will take you directly to the extension's configuration panel.
+   - Paste your [Google Gemini API key](https://aistudio.google.com/app/apikey) into the `Gemini API Key` field.
+
+3. **Auto Commit in Action:**
+   - After 60 seconds of inactivity in a Git-tracked project, the extension:
+     - Detects staged changes.
+     - Uses Gemini AI to generate a meaningful commit message.
+     - Automatically commits and pushes your changes.
+
+4. **Available Commands (via Command Palette `Ctrl+Shift+P`):**
+   - `Auto Git Commit: Commit` – Triggers commit immediately.
+   - `Auto Git Commit: Stop` – Disables auto-commits.
+   - `Auto Git Commit: Restart` – Restarts the auto-commit timer.
+   - `Auto Git Commit: Open Settings` – Opens configuration options.
+
+> 💡 Tip: You can adjust the delay time, default fallback commit message, and more in the extension settings.
+
+
+## ⚙️ Extension Settings
 
 This extension contributes the following settings:
 
@@ -39,13 +75,13 @@ This extension contributes the following settings:
   _Type_: `string` – Your Gemini API key. Get one at [Google AI Studio](https://makersuite.google.com/app).
 
 
-## Known Issues
+## 🐞 Known Issues
 
 - The "Push" feature is not implemented yet and is marked as "Coming Soon".
 - Works only with one workspace folder. Multi-root workspaces are not yet supported.
 - Some rare Gemini API responses may return improperly formatted messages.
 
-## FAQ
+## ❓ FAQ
 
 **Q: Does this push to GitHub?**  
 A: Not yet. The `enablePush` feature is planned and will be released soon.
@@ -60,7 +96,7 @@ A: Yes. As long as the workspace contains a `.git` folder, it will function.
 A: Nothing will be committed, and no message is shown unless triggered manually.
 
 
-## Release Notes
+## 📝 Release Notes
 
 ### 1.0.0
 
