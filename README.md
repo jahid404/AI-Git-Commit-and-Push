@@ -112,7 +112,6 @@ A: Nothing will be committed, and no message is shown unless triggered manually.
 
 ## For more information
 
-- [Visual Studio Code Extension Docs](https://code.visualstudio.com/api)
 - [Google Gemini API](https://ai.google.dev/)
 
 
