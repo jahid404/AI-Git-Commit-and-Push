@@ -1,4 +1,5 @@
 node_modules
 .vscode-test/
-*.vsix
 extension-source.js
+.vscodeignore
+.vscode
