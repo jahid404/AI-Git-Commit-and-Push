@@ -8,9 +8,9 @@
     "vscode": "^1.75.0"
   },
   "categories": [
-    "Source Control",
+    "SCM Providers",
     "Programming Languages",
-    "Tools"
+    "Other"
   ],
   "keywords": [
     "git",
