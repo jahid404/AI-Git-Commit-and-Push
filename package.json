@@ -84,6 +84,10 @@
       }
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jahid404/auto-ai-git-commit-and-push.git"
+  },
   "scripts": {
     "lint": "eslint .",
     "pretest": "npm run lint",
