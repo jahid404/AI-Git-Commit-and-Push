@@ -4,6 +4,7 @@ Automatically stage, commit, and optionally push your code using AI-generated co
 
 ## 🔽 Quick Download
 
+#### Recommended
 Just search `Auto AI Git Commit` in vscode extension searchbar and install the extension!
 
 #### Alternative Approch
