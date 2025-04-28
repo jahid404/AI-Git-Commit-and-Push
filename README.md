@@ -11,7 +11,7 @@ Don't forget to verify the publisher name `DreamersDesire` 🤭
 #### Manual Install
 Grab the latest `.vsix` package directly from the GitHub release:
 
-👉 [Download v1.0.0 – auto-ai-git-commit-and-push](https://github.com/jahid404/AI-Git-Commit-and-Push/releases/download/v1.0.0/auto-ai-git-commit-and-push-1.0.0.vsix)
+👉 [Download v1.0.1 – auto-ai-git-commit-and-push](https://github.com/jahid404/AI-Git-Commit-and-Push/releases/download/v1.0.1/auto-ai-git-commit-and-push-1.0.0.vsix)
 
 
 ## ✨ Features
