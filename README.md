@@ -103,8 +103,11 @@ A: Nothing will be committed, and no message is shown unless triggered manually.
 
 ## 📝 Release Notes
 
-### 1.0.0
+### 1.1.0
+- Added `autoStart` setting to control auto-commit on extension activation.
+- Improved error handling and logging.
 
+### 1.0.0
 🎉 Initial release of `Auto AI Git Commit and Push`.
 
 - Auto-detect `.git` projects
