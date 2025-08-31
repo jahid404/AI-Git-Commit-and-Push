@@ -103,7 +103,7 @@ A: Nothing will be committed, and no message is shown unless triggered manually.
 
 ## 📝 Release Notes
 
-### 1.1.0
+### 1.1.2
 - Added `autoStart` setting to control auto-commit on extension activation.
 - Improved error handling and logging.
 
