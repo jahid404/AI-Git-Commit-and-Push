@@ -2,7 +2,7 @@
   "name": "auto-ai-git-commit-and-push",
   "displayName": "Auto AI Git Commit and Push",
   "description": "A Visual Studio Code extension for automatically stages, commits, and pushes code changes after specific delay (60s) of inactivity. Commit messages are generated using Google's Gemini AI based on the code diff. Ideal for solo developers or rapid prototyping.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publisher": "dreamersdesire",
   "icon": "icon.png",
   "engines": {
